@@ -14,10 +14,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
     }
 
     .background {
@@ -32,6 +28,10 @@
     }
 
     .content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 2;
       text-align: center;
       width: 100%;
