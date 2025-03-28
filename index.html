@@ -14,10 +14,6 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: white;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
     }
 
     .background {
@@ -32,6 +28,10 @@
     }
 
     .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       z-index: 2;
       text-align: center;
       width: 100%;
@@ -142,10 +142,10 @@
 
   <div class="socials">
     <span>
-      <img src="discord_logo.webp" alt="Discord" />Discord: discord.gg/pixelmod
+      <img src="discord_logo.png" alt="Discord" />Discord: discord.gg/pixelmod
     </span>
     <span>
-      <img src="tiktok_logo.webp" alt="TikTok" />TikTok: @peluge327
+      <img src="tiktok_logo.png" alt="TikTok" />TikTok: @peluge327
     </span>
   </div>
 
