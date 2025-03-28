@@ -28,13 +28,13 @@
     }
 
     .content {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 2;
       text-align: center;
-      width: 100%;
+      width: 90%;
       max-width: 800px;
       padding: 20px;
     }
@@ -82,7 +82,7 @@
     }
 
     .tips {
-      position: absolute;
+      position: fixed;
       bottom: 80px;
       width: 100%;
       text-align: center;
@@ -101,7 +101,7 @@
     }
 
     .socials {
-      position: absolute;
+      position: fixed;
       bottom: 20px;
       width: 100%;
       text-align: center;
@@ -178,7 +178,6 @@
       document.getElementById("progressBar").style.width = percent + "%";
     }
 
-    // Rotacja tipów co 10 sekund z efektem zanikania
     var tips = [
       "Dołącz do naszego Discorda po nowości i giveaway!",
       "Jeśli potrzebujesz pomocy, napisz na @ – administrator się zgłosi.",
