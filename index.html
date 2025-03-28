@@ -210,22 +210,29 @@
     function SetFilesTotal(total) {
       window.totalFiles = total;
       window.loadedFiles = 0;
+      console.log('Total files:', total); // debugging
     }
 
     function SetFilesNeeded(needed) {
-      window.neededFiles = needed || 1; // zabezpieczenie przed dzieleniem przez 0
+      window.neededFiles = Math.max(1, needed); // minimum 1, by uniknąć dzielenia przez 0
       window.loadedFiles = 0;
       document.getElementById("progressBar").style.width = "0%";
+      console.log('Files needed:', needed); // debugging
     }
 
     function SetFilesProgress(progress) {
       window.loadedFiles = progress;
+      // Oblicz procent używając albo neededFiles, albo totalFiles
       var percent;
       if (window.neededFiles) {
         percent = Math.min(100, Math.floor((progress / window.neededFiles) * 100));
+      } else if (window.totalFiles) {
+        percent = Math.min(100, Math.floor((progress / window.totalFiles) * 100));
       } else {
-        percent = Math.min(100, Math.floor(progress * 100));
+        percent = Math.min(100, Math.floor(progress));
       }
+      
+      console.log('Progress:', progress, 'Percent:', percent + '%'); // debugging
       document.getElementById("progressBar").style.width = percent + "%";
     }
 
