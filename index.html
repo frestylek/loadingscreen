@@ -103,12 +103,9 @@
 
     .progress {
       height: 100%;
-      width: 0%;
+      width: 0;
       background: #3da9fc;
-      -webkit-transition: width 0.3s ease-in-out;
-      -moz-transition: width 0.3s ease-in-out;
-      -o-transition: width 0.3s ease-in-out;
-      transition: width 0.3s ease-in-out;
+      /* Usuwamy transition */
     }
 
     .status {
@@ -195,8 +192,55 @@
   </div>
 
   <script>
+    // Zmienne globalne dla progress bara
+    var currentProgress = {
+        filesNeeded: 0,
+        filesLoaded: 0
+    };
+
     function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
-      document.getElementById("statusText").innerText = "Dołączanie do: " + servername + " | Mapa: " + mapname;
+        document.getElementById("statusText").innerText = "Dołączanie do: " + servername + " | Mapa: " + mapname;
+        // Reset progress bara przy starcie
+        currentProgress.filesNeeded = 0;
+        currentProgress.filesLoaded = 0;
+        document.getElementById("progressBar").style.width = "0%";
+    }
+
+    function setProgressWidth(element, width) {
+        try {
+            // Próbujemy różne metody ustawienia szerokości
+            element.style.width = width + '%';
+            element.style.pixelWidth = (width * element.parentElement.offsetWidth) / 100;
+            
+            // Fallback dla bardzo starych przeglądarek
+            if (element.currentStyle) {
+                element.currentStyle.width = width + '%';
+            }
+        } catch(e) {
+            // Ignorujemy błędy
+        }
+    }
+
+    // Uproszczona logika progress bara
+    var totalFiles = 0;
+    var currentFile = 0;
+
+    function SetFilesTotal(total) {
+        totalFiles = parseInt(total) || 100;
+        currentFile = 0;
+        setProgressWidth(document.getElementById('progressBar'), 0);
+    }
+
+    function SetFilesNeeded(needed) {
+        totalFiles = parseInt(needed) || 100;
+        currentFile = 0;
+        setProgressWidth(document.getElementById('progressBar'), 0);
+    }
+
+    function SetFilesProgress(progress) {
+        currentFile = parseInt(progress) || 0;
+        var percentage = Math.min(100, Math.round((currentFile / Math.max(1, totalFiles)) * 100));
+        setProgressWidth(document.getElementById('progressBar'), percentage);
     }
 
     function SetStatusChanged(status) {
@@ -205,35 +249,6 @@
 
     function DownloadingFile(fileName) {
       document.getElementById("statusText").innerText = "Pobieranie pliku: " + fileName;
-    }
-
-    function SetFilesTotal(total) {
-      window.totalFiles = total;
-      window.loadedFiles = 0;
-      console.log('Total files:', total); // debugging
-    }
-
-    function SetFilesNeeded(needed) {
-      window.neededFiles = Math.max(1, needed); // minimum 1, by uniknąć dzielenia przez 0
-      window.loadedFiles = 0;
-      document.getElementById("progressBar").style.width = "0%";
-      console.log('Files needed:', needed); // debugging
-    }
-
-    function SetFilesProgress(progress) {
-      window.loadedFiles = progress;
-      // Oblicz procent używając albo neededFiles, albo totalFiles
-      var percent;
-      if (window.neededFiles) {
-        percent = Math.min(100, Math.floor((progress / window.neededFiles) * 100));
-      } else if (window.totalFiles) {
-        percent = Math.min(100, Math.floor((progress / window.totalFiles) * 100));
-      } else {
-        percent = Math.min(100, Math.floor(progress));
-      }
-      
-      console.log('Progress:', progress, 'Percent:', percent + '%'); // debugging
-      document.getElementById("progressBar").style.width = percent + "%";
     }
 
     var tips = [
