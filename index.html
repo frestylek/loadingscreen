@@ -84,30 +84,6 @@
       text-shadow: 1px 1px 3px black;
     }
 
-    .loader {
-      max-width: 800px;
-      width: 80%;
-      height: 25px;
-      background: #333;
-      /* prefiksy dla border-radius */
-      -webkit-border-radius: 20px;
-      -moz-border-radius: 20px;
-      border-radius: 20px;
-      overflow: hidden;
-      /* prefiksy dla box-shadow */
-      -webkit-box-shadow: 0 0 10px #000;
-      -moz-box-shadow: 0 0 10px #000;
-      box-shadow: 0 0 10px #000;
-      margin: 0 auto;
-    }
-
-    .progress {
-      height: 100%;
-      width: 0;
-      background: #3da9fc;
-      /* Usuwamy transition */
-    }
-
     .status {
       text-align: center;
       margin-top: 10px;
@@ -171,10 +147,8 @@
     <img src="logopixelmod.png" alt="Pixelmod Logo" class="logo" />
     <h1>Pixelmod Servers</h1>
     <h2>Peluge RP - Star Wars Edition</h2>
-
-    <div class="loader">
-      <div class="progress" id="progressBar"></div>
-    </div>
+    
+    <!-- Usuwamy loader i progress bar, zostawiamy tylko status -->
     <div class="status" id="statusText">Ładowanie...</div>
   </div>
 
@@ -192,49 +166,16 @@
   </div>
 
   <script>
-    var totalFiles = 1;
-    var loadedFiles = 0;
-    var progressBar = document.getElementById('progressBar');
-
-    function updateProgress() {
-        var percentage = Math.min(100, Math.floor((loadedFiles / totalFiles) * 100)) || 0;
-        console.log('Progress:', loadedFiles, '/', totalFiles, '=', percentage + '%');
-        progressBar.style.width = percentage + '%';
-    }
-
     function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
         document.getElementById("statusText").innerText = "Dołączanie do: " + servername + " | Mapa: " + mapname;
-        // Nie resetujemy progresu przy GameDetails
-    }
-
-    function SetFilesTotal(total) {
-        totalFiles = parseInt(total) || 1;
-        loadedFiles = 0;
-        console.log('SetFilesTotal:', totalFiles);
-        updateProgress();
-    }
-
-    function SetFilesNeeded(needed) {
-        totalFiles = parseInt(needed) || 1;
-        loadedFiles = 0;
-        console.log('SetFilesNeeded:', totalFiles);
-        updateProgress();
-    }
-
-    function SetFilesProgress(progress) {
-        loadedFiles = parseInt(progress) || 0;
-        console.log('SetFilesProgress:', progress);
-        updateProgress();
     }
 
     function SetStatusChanged(status) {
         document.getElementById("statusText").innerText = status;
-        console.log('Status:', status);
     }
 
     function DownloadingFile(fileName) {
         document.getElementById("statusText").innerText = "Pobieranie pliku: " + fileName;
-        console.log('Downloading:', fileName);
     }
 
     var tips = [
