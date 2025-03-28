@@ -192,63 +192,49 @@
   </div>
 
   <script>
-    // Zmienne globalne dla progress bara
-    var currentProgress = {
-        filesNeeded: 0,
-        filesLoaded: 0
-    };
+    var totalFiles = 1;
+    var loadedFiles = 0;
+    var progressBar = document.getElementById('progressBar');
+
+    function updateProgress() {
+        var percentage = Math.min(100, Math.floor((loadedFiles / totalFiles) * 100)) || 0;
+        console.log('Progress:', loadedFiles, '/', totalFiles, '=', percentage + '%');
+        progressBar.style.width = percentage + '%';
+    }
 
     function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
         document.getElementById("statusText").innerText = "Dołączanie do: " + servername + " | Mapa: " + mapname;
-        // Reset progress bara przy starcie
-        currentProgress.filesNeeded = 0;
-        currentProgress.filesLoaded = 0;
-        document.getElementById("progressBar").style.width = "0%";
+        // Nie resetujemy progresu przy GameDetails
     }
-
-    function setProgressWidth(element, width) {
-        try {
-            // Próbujemy różne metody ustawienia szerokości
-            element.style.width = width + '%';
-            element.style.pixelWidth = (width * element.parentElement.offsetWidth) / 100;
-            
-            // Fallback dla bardzo starych przeglądarek
-            if (element.currentStyle) {
-                element.currentStyle.width = width + '%';
-            }
-        } catch(e) {
-            // Ignorujemy błędy
-        }
-    }
-
-    // Uproszczona logika progress bara
-    var totalFiles = 0;
-    var currentFile = 0;
 
     function SetFilesTotal(total) {
-        totalFiles = parseInt(total) || 100;
-        currentFile = 0;
-        setProgressWidth(document.getElementById('progressBar'), 0);
+        totalFiles = parseInt(total) || 1;
+        loadedFiles = 0;
+        console.log('SetFilesTotal:', totalFiles);
+        updateProgress();
     }
 
     function SetFilesNeeded(needed) {
-        totalFiles = parseInt(needed) || 100;
-        currentFile = 0;
-        setProgressWidth(document.getElementById('progressBar'), 0);
+        totalFiles = parseInt(needed) || 1;
+        loadedFiles = 0;
+        console.log('SetFilesNeeded:', totalFiles);
+        updateProgress();
     }
 
     function SetFilesProgress(progress) {
-        currentFile = parseInt(progress) || 0;
-        var percentage = Math.min(100, Math.round((currentFile / Math.max(1, totalFiles)) * 100));
-        setProgressWidth(document.getElementById('progressBar'), percentage);
+        loadedFiles = parseInt(progress) || 0;
+        console.log('SetFilesProgress:', progress);
+        updateProgress();
     }
 
     function SetStatusChanged(status) {
-      document.getElementById("statusText").innerText = status;
+        document.getElementById("statusText").innerText = status;
+        console.log('Status:', status);
     }
 
     function DownloadingFile(fileName) {
-      document.getElementById("statusText").innerText = "Pobieranie pliku: " + fileName;
+        document.getElementById("statusText").innerText = "Pobieranie pliku: " + fileName;
+        console.log('Downloading:', fileName);
     }
 
     var tips = [
