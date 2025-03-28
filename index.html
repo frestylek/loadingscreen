@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Peluge RP | Pixelmod Servers</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom, #0a0a0a, #1a1a1a);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: black;
+      font-family: Arial, sans-serif;
       color: white;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
 
     .background {
       position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('baner pixelmod.png');
+      background-image: url('baner_pixelmod.png');
       background-size: cover;
       background-position: center;
-      filter: blur(4px) brightness(0.4);
       z-index: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 2;
     }
 
     .content {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       text-align: center;
-      width: 100%;
-      max-width: 800px;
-      padding: 20px;
+      margin-top: 8%;
     }
 
     .logo {
@@ -45,26 +46,24 @@
     }
 
     h1 {
-      font-size: 3em;
+      font-size: 2.5em;
       color: #3da9fc;
       margin: 0;
-      text-shadow: 2px 2px 5px black;
+      text-shadow: 1px 1px 2px black;
     }
 
     h2 {
-      font-size: 2em;
+      font-size: 1.5em;
       color: white;
-      text-shadow: 1px 1px 3px black;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .loader {
-      width: 80%;
+      width: 60%;
       height: 25px;
       background: #333;
-      border-radius: 20px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 0 10px #000;
       margin: 0 auto;
     }
 
@@ -75,7 +74,6 @@
     }
 
     .status {
-      text-align: center;
       margin-top: 10px;
       font-size: 1.1em;
       color: #dddddd;
@@ -88,7 +86,6 @@
       text-align: center;
       font-size: 1em;
       color: #cccccc;
-      z-index: 2;
     }
 
     .tips p {
@@ -105,28 +102,27 @@
       bottom: 20px;
       width: 100%;
       text-align: center;
-      color: #ffffff;
-      font-size: 0.95em;
-      z-index: 2;
+      font-size: 0.9em;
     }
 
     .socials span {
       margin: 0 10px;
-      display: inline-flex;
-      align-items: center;
+      display: inline-block;
     }
 
     .socials img {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
       margin-right: 6px;
     }
   </style>
 </head>
 <body>
   <div class="background"></div>
+  <div class="overlay"></div>
   <div class="content">
-    <img src="logopixelmod.png" alt="Pixelmod Logo" class="logo" />
+    <img src="logopixelmod.png" alt="Pixelmod Logo" class="logo">
     <h1>Pixelmod Servers</h1>
     <h2>Peluge RP - Star Wars Edition</h2>
 
@@ -137,21 +133,21 @@
   </div>
 
   <div class="tips" id="tipContainer">
-    <p id="tipText">💬 Dołącz do naszego Discorda po nowości i giveaway!</p>
+    <p id="tipText">Dołącz do naszego Discorda po nowości i giveaway!</p>
   </div>
 
   <div class="socials">
     <span>
-      <img src="discord_logo.webp" alt="Discord" />Discord: discord.gg/pixelmod
+      <img src="discord_logo.png" alt="Discord">Discord: discord.gg/pixelmod
     </span>
     <span>
-      <img src="tiktok_logo.webp" alt="TikTok" />TikTok: @peluge327
+      <img src="tiktok_logo.png" alt="TikTok">TikTok: @peluge327
     </span>
   </div>
 
   <script>
     function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
-      document.getElementById("statusText").innerText = `Dołączanie do: ${servername} | Mapa: ${mapname}`;
+      document.getElementById("statusText").innerText = "Dołączanie do: " + servername + " | Mapa: " + mapname;
     }
 
     function SetStatusChanged(status) {
@@ -159,7 +155,7 @@
     }
 
     function DownloadingFile(fileName) {
-      document.getElementById("statusText").innerText = `Pobieranie pliku: ${fileName}`;
+      document.getElementById("statusText").innerText = "Pobieranie pliku: " + fileName;
     }
 
     function SetFilesTotal(total) {
@@ -174,23 +170,23 @@
 
     function SetFilesProgress(progress) {
       window.loadedFiles = progress;
-      const percent = Math.min(100, Math.floor((progress / window.neededFiles) * 100));
+      var percent = Math.min(100, Math.floor((progress / window.neededFiles) * 100));
       document.getElementById("progressBar").style.width = percent + "%";
     }
 
-    // Rotacja tipów co 10 sekund z efektem zanikania
-    const tips = [
-      "💬 Dołącz do naszego Discorda po nowości i giveaway!",
-      "🛠 Jeśli potrzebujesz pomocy, napisz na @ – administrator się zgłosi.",
-      "📩 W razie problemów otwórz ticket na Discordzie lub napisz na @"
+    // Tipy bez emotek + efekt zanikania
+    var tips = [
+      "Dołącz do naszego Discorda po nowości i giveaway!",
+      "Jeśli potrzebujesz pomocy, napisz na @ – administrator się zgłosi.",
+      "W razie problemów otwórz ticket na Discordzie lub napisz na @"
     ];
 
-    let tipIndex = 0;
-    const tipText = document.getElementById("tipText");
+    var tipIndex = 0;
+    var tipText = document.getElementById("tipText");
 
-    setInterval(() => {
+    setInterval(function () {
       tipText.classList.add("fade-out");
-      setTimeout(() => {
+      setTimeout(function () {
         tipIndex = (tipIndex + 1) % tips.length;
         tipText.innerText = tips[tipIndex];
         tipText.classList.remove("fade-out");
